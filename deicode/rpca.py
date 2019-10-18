@@ -13,7 +13,8 @@ def rpca(table: biom.Table,
          n_components: int = DEFAULT_RANK,
          min_sample_count: int = DEFAULT_MSC,
          min_feature_count: int = DEFAULT_MFC,
-         max_iterations: int = DEFAULT_ITERATIONS) -> (
+         max_iterations: int = DEFAULT_ITERATIONS,
+         feature_matrix = False) -> (
         skbio.OrdinationResults,
         skbio.DistanceMatrix):
     """Runs RPCA with an rclr preprocessing step.
@@ -78,7 +79,13 @@ def rpca(table: biom.Table,
         features=feature_loading.copy(),
         proportion_explained=proportion_explained.copy())
     # save distance matrix
-    dist_res = skbio.stats.distance.DistanceMatrix(
-        opt.distance, ids=sample_loading.index)
+    samp_dist_res = skbio.stats.distance.DistanceMatrix(
+        opt.samp_distance, ids=sample_loading.index)
 
-    return ord_res, dist_res
+    # save feature matrix if specified
+    if feature_matrix:
+        feat_dist_res = skbio.stats.distance.DistanceMatrix(
+            opt.feat_distance, ids=feature_loading.index)
+        return ord_res, samp_dist_res, feat_dist_res
+    else:
+        return ord_res, samp_dist_res

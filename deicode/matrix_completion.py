@@ -120,7 +120,8 @@ class MatrixCompletion(_BaseImpute):
         self.eigenvalues = np.diag(self.s)
         self.explained_variance_ratio = list(
             self.eigenvalues / self.eigenvalues.sum())
-        self.distance = distance.cdist(self.U, self.U)
+        self.samp_distance = distance.cdist(self.U, self.U)
+        self.feat_distance = distance.cdist(self.V, self.V)
         self.feature_weights = self.V
         self.sample_weights = self.U
 
