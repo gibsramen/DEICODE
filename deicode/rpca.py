@@ -14,7 +14,7 @@ def rpca(table: biom.Table,
          min_sample_count: int = DEFAULT_MSC,
          min_feature_count: int = DEFAULT_MFC,
          max_iterations: int = DEFAULT_ITERATIONS,
-         feature_matrix = False) -> (
+         feature_matrix: bool = False) -> (
         skbio.OrdinationResults,
         skbio.DistanceMatrix):
     """Runs RPCA with an rclr preprocessing step.

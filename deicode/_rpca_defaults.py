@@ -5,6 +5,7 @@ DEFAULT_RANK = 3
 DEFAULT_MSC = 500
 DEFAULT_MFC = 10
 DEFAULT_ITERATIONS = 5
+DEFAULT_SFM = False
 
 DESC_RANK = ("The underlying low-rank structure (suggested: 1 < rank < 10)"
              " [minimum 2]")
@@ -13,3 +14,5 @@ DESC_MFC = "Minimum sum cutoff of features across all samples"
 DESC_ITERATIONS = ("The number of iterations to optimize the solution"
                    " (suggested to be below 100; beware of overfitting)"
                    " [minimum 1]")
+DESC_SFM = ("If True, output feature-feature matrix in addition to"
+            " sample-sample matrix (default False)")
