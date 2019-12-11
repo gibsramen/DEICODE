@@ -12,7 +12,7 @@ from deicode import __version__
 from deicode.rpca import rpca
 from deicode._rpca_defaults import (DESC_RANK, DESC_MSC, DESC_MFC,
                                     DESC_ITERATIONS)
-from qiime2.plugin import (Properties, Int)
+from qiime2.plugin import (Properties, Int, Bool)
 from q2_types.feature_table import FeatureTable, Frequency
 from q2_types.distance_matrix import DistanceMatrix
 from q2_types.ordination import PCoAResults
@@ -39,10 +39,12 @@ plugin.methods.register_function(
         'min_sample_count': Int,
         'min_feature_count': Int,
         'max_iterations': Int,
+        'feature_matrix': Bool,
     },
     outputs=[
         ('biplot', PCoAResults % Properties("biplot")),
-        ('distance_matrix', DistanceMatrix)
+        ('distance_matrix', DistanceMatrix),
+        ('feature_distance_matrix', DistanceMatrix),
     ],
     input_descriptions={
         'table': 'Input table of counts.',
@@ -52,11 +54,14 @@ plugin.methods.register_function(
         'min_sample_count': DESC_MSC,
         'min_feature_count': DESC_MFC,
         'max_iterations': DESC_ITERATIONS,
+        'feature_matrix': "Placeholder",
     },
     output_descriptions={
         'biplot': ('A biplot of the (Robust Aitchison) RPCA feature loadings'),
         'distance_matrix': ('The Aitchison distance of'
-                            'the sample loadings from RPCA.')
+                            'the sample loadings from RPCA.'),
+        'feature_distance_matrix': ('The Aitchison distance of the'
+                                    'feature loadings from RPCA.')
     },
     name='(Robust Aitchison) RPCA Biplot',
     description=("Performs robust center log-ratio transform "
