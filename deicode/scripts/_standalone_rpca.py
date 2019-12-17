@@ -3,9 +3,8 @@ import click
 from biom import load_table
 from deicode.rpca import rpca
 from deicode._rpca_defaults import (DEFAULT_RANK, DEFAULT_MSC, DEFAULT_MFC,
-                                    DEFAULT_ITERATIONS, DEFAULT_SFM,
-                                    DESC_RANK, DESC_MSC, DESC_MFC,
-                                    DESC_ITERATIONS, DESC_SFM)
+                                    DEFAULT_ITERATIONS, DESC_RANK,
+                                    DESC_MSC, DESC_MFC, DESC_ITERATIONS)
 
 
 @click.command()
@@ -31,11 +30,6 @@ from deicode._rpca_defaults import (DEFAULT_RANK, DEFAULT_MSC, DEFAULT_MFC,
     default=DEFAULT_ITERATIONS,
     show_default=True,
     help=DESC_ITERATIONS)
-@click.option(
-    '--save_feature_matrix',
-    default=DEFAULT_SFM,
-    show_default=True,
-    help=DESC_SFM)
 def standalone_rpca(in_biom: str, output_dir: str, n_components: int,
                     min_sample_count: int, min_feature_count: int,
                     max_iterations: int, save_feature_matrix: bool) -> None:
@@ -44,18 +38,13 @@ def standalone_rpca(in_biom: str, output_dir: str, n_components: int,
     # import table
     table = load_table(in_biom)
 
-    if not save_feature_matrix:
-        ord_res, dist_res = rpca(table,
-                                 n_components,
-                                 min_sample_count,
-                                 min_feature_count,
-                                 max_iterations)
-    else:
-        ord_res, dist_res, feat_res = rpca(table,
-                                           n_components,
-                                           min_sample_count,
-                                           min_feature_count,
-                                           max_iterations)
+    ord_res, dist_res, feat_res = rpca(
+        table,
+        n_components,
+        min_sample_count,
+        min_feature_count,
+        max_iterations
+    )
 
     # If it doesn't already exist, create the output directory.
     # Note that there is technically a race condition here: it's ostensibly
@@ -72,8 +61,7 @@ def standalone_rpca(in_biom: str, output_dir: str, n_components: int,
     # behavior if you specify --output-dir instead).
     ord_res.write(os.path.join(output_dir, 'ordination.txt'))
     dist_res.write(os.path.join(output_dir, 'sample-distance-matrix.tsv'))
-    if save_feature_matrix:
-        feat_res.write(os.path.join(output_dir, 'feature-distance-matrix.tsv'))
+    feat_res.write(os.path.join(output_dir, 'feature-distance-matrix.tsv'))
 
 
 if __name__ == '__main__':

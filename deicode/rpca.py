@@ -9,15 +9,13 @@ from deicode._rpca_defaults import (DEFAULT_RANK, DEFAULT_MSC, DEFAULT_MFC,
 from scipy.linalg import svd
 
 
-def rpca(table: biom.Table,
-         n_components: int = DEFAULT_RANK,
-         min_sample_count: int = DEFAULT_MSC,
-         min_feature_count: int = DEFAULT_MFC,
-         max_iterations: int = DEFAULT_ITERATIONS,
-         feature_matrix: bool = False) -> (
-        skbio.OrdinationResults,
-        skbio.DistanceMatrix,
-        skbio.DistanceMatrix):
+def rpca(
+    table: biom.Table,
+    n_components: int = DEFAULT_RANK,
+    min_sample_count: int = DEFAULT_MSC,
+    min_feature_count: int = DEFAULT_MFC,
+    max_iterations: int = DEFAULT_ITERATIONS,
+) -> (skbio.OrdinationResults, skbio.DistanceMatrix, skbio.DistanceMatrix):
     """Runs RPCA with an rclr preprocessing step.
 
        This code will be run by both the standalone and QIIME 2 versions of
@@ -79,14 +77,11 @@ def rpca(table: biom.Table,
         samples=sample_loading.copy(),
         features=feature_loading.copy(),
         proportion_explained=proportion_explained.copy())
+
     # save distance matrix
     samp_dist_res = skbio.stats.distance.DistanceMatrix(
         opt.samp_distance, ids=sample_loading.index)
+    feat_dist_res = skbio.stats.distance.DistanceMatrix(
+        opt.feat_distance, ids=feature_loading.index)
 
-    # save feature matrix if specified
-    if feature_matrix:
-        feat_dist_res = skbio.stats.distance.DistanceMatrix(
-            opt.feat_distance, ids=feature_loading.index)
-        return ord_res, samp_dist_res, feat_dist_res
-    else:
-        return ord_res, samp_dist_res
+    return ord_res, samp_dist_res, feat_dist_res
