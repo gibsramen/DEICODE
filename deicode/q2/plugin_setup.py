@@ -81,7 +81,8 @@ plugin.methods.register_function(
     },
     outputs=[
         ('biplot', PCoAResults % Properties("biplot")),
-        ('distance_matrix', DistanceMatrix)
+        ('distance_matrix', DistanceMatrix),
+        ('feature_distance_matrix', DistanceMatrix)
     ],
     input_descriptions={
         'table': 'Input table of counts.',

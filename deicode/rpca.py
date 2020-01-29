@@ -17,6 +17,7 @@ def rpca(table: biom.Table,
          min_feature_frequency: float = DEFAULT_MFF,
          max_iterations: int = DEFAULT_ITERATIONS) -> (
         skbio.OrdinationResults,
+        skbio.DistanceMatrix,
         skbio.DistanceMatrix):
     """Runs RPCA with an rclr preprocessing step.
 
@@ -115,6 +116,7 @@ def auto_rpca(table: biom.Table,
               min_feature_frequency: float = DEFAULT_MFF,
               max_iterations: int = DEFAULT_ITERATIONS) -> (
         skbio.OrdinationResults,
+        skbio.DistanceMatrix,
         skbio.DistanceMatrix):
     """Runs RPCA but with auto estimation of the
        rank peramater.
